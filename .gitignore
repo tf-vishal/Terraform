@@ -1,2 +1,9 @@
+# SSH keys
 terra-key-ec2.pub
 terra-key-ec2
+
+# Terraform
+# sometimes tf.sate and backup contains sensitive info like ur access keys etc
+terraform.tfstate.backup
+terraform.tfstate 
+.terraform/*
