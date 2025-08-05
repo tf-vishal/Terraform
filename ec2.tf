@@ -2,7 +2,7 @@
 
 resource "aws_key_pair" "my_key"{
     key_name   = "terra-key-ec2"
-    public_key = file("terraform_key.pub")
+    public_key = file("terra-key-ec2.pub")
 }
 # VPC and Security GRP
 
@@ -41,9 +41,9 @@ resource "aws_security_group" "my_sg"{
 }
 #Ec2 Instance
 
-resource "aws_instance" "ubuntu" {
+resource "aws_instance" "my_instance"{
     key_name = aws_key_pair.my_key.key_name
-    security_groups = ["aws_security_group.my_sg.name"]
+    security_groups = [aws_security_group.my_sg.name]
     instance_type = "t2.micro"
 
     ami = "ami-0f918f7e67a3323f0" #ubuntu
