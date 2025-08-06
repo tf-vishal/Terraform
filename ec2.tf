@@ -51,7 +51,7 @@ resource "aws_security_group" "my_sg"{
 #Ec2 Instance
 
 resource "aws_instance" "my_instance"{
-    count = 2 # meta argument to create no. of instance
+    count = 2 # meta arguments, creates number of resources of the respective resource here it's instance.
     key_name = aws_key_pair.my_key.key_name
     security_groups = [aws_security_group.my_sg.name]
     instance_type = var.ec2_instance_type
