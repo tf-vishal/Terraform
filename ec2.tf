@@ -65,9 +65,14 @@ resource "aws_instance" "my_instance"{
     ami = var.ec2_ami_id
     
     root_block_device {
-      volume_size = var.ec2_root_storage_size
+      volume_size = var.env == "prd" ? 20 : var.ec2_default_root_storage_size
       volume_type = "gp3"
     }
+
+    #In computer lang it's known as ternary operator and in tf it's knwon as conditional exp
+    # var is comparing env == prod
+    # ? is  like, if it's true then use the after ?
+    # if it's not then use the later one that is after colon (:)
 
     tags = {
         Name = each.key
