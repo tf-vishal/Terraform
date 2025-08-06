@@ -51,6 +51,8 @@ resource "aws_instance" "my_instance"{
     security_groups = [aws_security_group.my_sg.name]
     instance_type = each.value
 
+    depends_on = [ aws_security_group.my_sg , aws_key_pair.my_key ] #this is also a meta argument, which is without sg we can't have any instance
+
     ami = var.ec2_ami_id
     
     root_block_device {
