@@ -42,6 +42,7 @@ resource "aws_security_group" "my_sg"{
 #Ec2 Instance
 
 resource "aws_instance" "my_instance"{
+    count = 1 # creates number of resources of thre respective block, here it is instance
     key_name = aws_key_pair.my_key.key_name
     security_groups = [aws_security_group.my_sg.name]
     instance_type = var.ec2_instance_type
