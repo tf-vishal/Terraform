@@ -1,0 +1,79 @@
+State files are used to check the config between the provider and the files.
+
+Basically it's a state, bridge, where files are updated everytime some action tkaes place.
+
+commands are
+
+
+terraform state list
+terraform state show <resource/any instance listed in list>
+
+
+```terraform state rm aws_key_pair.my_key 
+terraform apply```
+
+-> this rm will only remove the state between the tfstate and aws.
+
+To bring back any resource or let's say we want oour key pair back
+we can do it r2BjvjPU9Uv4WhJYWgVW760axXjRojglQKaXId9WHFBr78rawHg0QEmZzII2zVAPYERBjYD0A
+
+terraform import aws_key_pair.my_key <id>
+
+-> you can get id from console of the key_pair 
+
+
+
+
+"TO add the instance to the state file"
+1. write a resource block in ec2.tf with resource of instance and name "my_new_instance"
+
+in that write like
+    resource "aws_instance" "my_new_instance"{
+        ami = "unknown"
+        instance_type = "unknown"
+    }
+
+then write
+
+2. terraform import aws_instance.my_new_instance <instance-id>
+
+3. DONE
+4. Verify with "terraform state list"
+
+
+
+
+
+
+
+
+Q. Should we commit statefile to github?
+-> it is an important file which can not commit to github!!
+
+Q. What if I made a local terraform and run it and applied it on aws. I got the statefile (.tf , .tfstate) everything is working fine. my frnd got another tf file with same thing and say count with 3 on it and I have 2 count.
+
+
+
+        ----> Remote backend with s3 and dynomo db with lock-and-release mechanism
+
+
+How can I know that my frnd updated to 3?  
+-> this is known as state conflict.
+You can have commmon state file and save it to remote backend (in Remote s3 Bucket)
+
+AWS will listen to whom, either 3 or 2 ?
+                        OR
+---------> Two common prblm comes in tf state management ?How will solve it?
+1. Can't share it on source management software like git.
+2. State conflict
+
+You can solve it via - State file locking (using s3 and dynomo db)
+explanation- When I'm accessing the tfstate file on s3 bucket, it will trigger to dynomo db and it will have a lock_id, by the time i'm still interacting with s3, it will have lock id,  and no one can access it until I close the connection with S3 bucket.
+
+This is known as lock-and-release mechanism
+
+Source - https://youtu.be/S9mohJI_R34?si=jO9O1tDRHd4NYDls&t=16265
+
+
+
+The practical of this is stored on - https://github.com/tf-vishal/remote-intra.git
