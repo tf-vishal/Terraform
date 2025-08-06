@@ -28,7 +28,16 @@ resource "aws_security_group" "my_sg"{
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"] #HTTP open
         description = "HTTP OPEN"
-    }        
+    }
+
+    ingress {
+        from_port = 8000
+        to_port = 8000
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "Port 8000"
+    }
+
     #outbound rules
 
     egress{
@@ -42,9 +51,11 @@ resource "aws_security_group" "my_sg"{
 #Ec2 Instance
 
 resource "aws_instance" "my_instance"{
+    count = 2 # meta argument to create no. of instance
     key_name = aws_key_pair.my_key.key_name
     security_groups = [aws_security_group.my_sg.name]
     instance_type = var.ec2_instance_type
+    user_data = file("install-nginx.sh")
 
     ami = var.ec2_ami_id
     
