@@ -138,6 +138,15 @@ terraform destroy
 * **Code-driven**: No manual clicks in the console.
 * **Secure handling**: Secrets and state are kept out of version control.
 
+
+### Todo-
+- Add variables (done)
+- Add output block to show public and private DNS and IP (done)
+- Automate with script and run nginx wihtout logging in (done)
+- Conditional expression (done)
+- Meta arguments (done)
+- State management (done)
+
 > Codify the past and build for the future with Terraform.
 
 ---
