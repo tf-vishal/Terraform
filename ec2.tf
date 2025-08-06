@@ -42,10 +42,14 @@ resource "aws_security_group" "my_sg"{
 #Ec2 Instance
 
 resource "aws_instance" "my_instance"{
-    count = 1 # creates number of resources of thre respective block, here it is instance
+    #count = 1 # creates number of resources of thre respective block, here it is instance
+    for_each = tomap({
+        "Terra-Instance-T2-Micro" : "t2.micro"
+        "Terra-Instance-T3-Micro" : "t3.micro"
+    }) #tomap is just key:value pair #Meta arguments
     key_name = aws_key_pair.my_key.key_name
     security_groups = [aws_security_group.my_sg.name]
-    instance_type = var.ec2_instance_type
+    instance_type = each.value
 
     ami = var.ec2_ami_id
     
@@ -55,7 +59,7 @@ resource "aws_instance" "my_instance"{
     }
 
     tags = {
-        Name = "tf-automate-instance"
+        Name = each.key
     }
 
 }
